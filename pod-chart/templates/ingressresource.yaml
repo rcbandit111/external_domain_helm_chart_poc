@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: registry-domain-ingress
+spec:
+  rules:
+    - host: monitor.somedomain.org
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ include "pod.fullname" . }}
+                port:
+                  number: 80

@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "pod.fullname" . }}
+  labels:
+    {{- include "pod.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - name: http
+      nodePort: 30098 # Public port to access Eureka server web panel. For example http://<Kubernetes node IP>:30098
+      port: 8761
+      protocol: TCP
+      targetPort: http
+  selector:
+    {{- include "pod.selectorLabels" . | nindent 4 }}
